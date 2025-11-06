@@ -26,7 +26,8 @@ import {
   Umbrella,
   BarChart3,
   Archive,
-  Building
+  Building,
+  X
 } from 'lucide-react'
 
 interface SensorData {
@@ -74,6 +75,18 @@ export default function Dashboard() {
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
+
+  // Function to dismiss alert
+  const dismissAlert = (alertId: string) => {
+    setAlerts(prev => prev.map(alert => 
+      alert.id === alertId ? { ...alert, isRead: true } : alert
+    ))
+  }
+
+  // Function to dismiss all alerts
+  const dismissAllAlerts = () => {
+    setAlerts(prev => prev.map(alert => ({ ...alert, isRead: true })))
+  }
 
   // Mock data for demonstration
   useEffect(() => {
@@ -286,6 +299,20 @@ export default function Dashboard() {
       {/* Alerts */}
       {alerts.filter(a => !a.isRead).length > 0 && (
         <div className="mb-6 space-y-3">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-lg font-semibold text-slate-800">
+              Notifikasi Aktif ({alerts.filter(a => !a.isRead).length})
+            </h3>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={dismissAllAlerts}
+              className="text-xs"
+            >
+              <X className="h-3 w-3 mr-1" />
+              Tutup Semua
+            </Button>
+          </div>
           {alerts.filter(a => !a.isRead).map(alert => (
             <Alert key={alert.id} className={
               alert.alertType === 'danger' ? 'border-red-200 bg-red-50' :
@@ -293,13 +320,31 @@ export default function Dashboard() {
               'border-blue-200 bg-blue-50'
             }>
               <AlertTriangle className="h-4 w-4" />
-              <AlertTitle className="flex items-center gap-2">
-                {alert.title}
-                <Badge variant={alert.alertType === 'danger' ? 'destructive' : 'secondary'}>
-                  {alert.alertType}
-                </Badge>
+              <AlertTitle className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  {alert.title}
+                  <Badge variant={alert.alertType === 'danger' ? 'destructive' : 'secondary'}>
+                    {alert.alertType}
+                  </Badge>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => dismissAlert(alert.id)}
+                  className="h-6 w-6 p-0 hover:bg-red-100 hover:text-red-600 transition-colors"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
               </AlertTitle>
-              <AlertDescription>{alert.message}</AlertDescription>
+              <AlertDescription className="flex items-center justify-between">
+                <span>{alert.message}</span>
+                <span className="text-xs text-slate-500 ml-4">
+                  {new Date(alert.createdAt).toLocaleTimeString('id-ID', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                  })}
+                </span>
+              </AlertDescription>
             </Alert>
           ))}
         </div>
