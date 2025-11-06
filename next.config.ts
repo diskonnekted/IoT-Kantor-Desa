@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
   },
   // 禁用 Next.js 热重载，由 nodemon 处理重编译
   reactStrictMode: false,
+  // Allow cross-origin requests from specific domains
+  allowedDevOrigins: [
+    'monitor.pondokrejo.id',
+    'www.monitor.pondokrejo.id',
+    'http://monitor.pondokrejo.id',
+    'https://monitor.pondokrejo.id',
+    'localhost:3000',
+    '127.0.0.1:3000'
+  ],
   webpack: (config, { dev }) => {
     if (dev) {
       // 禁用 webpack 的热模块替换
