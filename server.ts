@@ -35,8 +35,16 @@ async function createCustomServer() {
     const io = new Server(server, {
       path: '/api/socketio',
       cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
+        origin: [
+          "http://localhost:3000",
+          "http://127.0.0.1:3000",
+          "https://monitor.pondokrejo.id",
+          "http://monitor.pondokrejo.id",
+          "https://www.monitor.pondokrejo.id",
+          "http://www.monitor.pondokrejo.id"
+        ],
+        methods: ["GET", "POST"],
+        credentials: true
       }
     });
 
