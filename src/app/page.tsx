@@ -542,54 +542,70 @@ export default function Dashboard() {
           <CardContent>
             {getWaterData() && (
               <div className="space-y-4">
-                <div className="relative h-48 bg-slate-100 rounded-lg overflow-hidden">
-                  {/* Tank Container */}
-                  <div className="absolute inset-2 bg-slate-200 rounded-lg">
-                    {/* Water Level */}
-                    <div 
-                      className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t ${getWaterTankColor(getWaterData()?.waterLevel || 0)} transition-all duration-1000 ease-in-out rounded-b-lg`}
-                      style={{ height: `${getWaterData()?.waterLevel || 0}%` }}
-                    >
-                      {/* Water Wave Effect */}
-                      <div className="absolute top-0 left-0 right-0 h-4">
-                        <div className="absolute inset-0 bg-white opacity-30 animate-pulse"></div>
+                <div className="flex justify-center">
+                  <div className="relative w-32 h-48 bg-slate-100 rounded-lg overflow-hidden">
+                    {/* Tank Container */}
+                    <div className="absolute inset-2 bg-slate-200 rounded-lg">
+                      {/* Water Level */}
+                      <div 
+                        className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t ${getWaterTankColor(getWaterData()?.waterLevel || 0)} transition-all duration-1000 ease-in-out rounded-b-lg`}
+                        style={{ height: `${getWaterData()?.waterLevel || 0}%` }}
+                      >
+                        {/* Water Wave Effect */}
+                        <div className="absolute top-0 left-0 right-0 h-3">
+                          <div className="absolute inset-0 bg-white opacity-20 animate-pulse"></div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-pulse"></div>
+                        </div>
+                        
+                        {/* Multiple Water Bubbles */}
+                        <div className="absolute bottom-2 left-2 w-2 h-2 bg-white opacity-70 rounded-full animate-bounce"></div>
+                        <div className="absolute bottom-4 right-3 w-1.5 h-1.5 bg-white opacity-50 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+                        <div className="absolute bottom-6 left-4 w-1 h-1 bg-white opacity-60 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
+                        <div className="absolute bottom-8 right-2 w-2.5 h-2.5 bg-white opacity-40 rounded-full animate-bounce" style={{ animationDelay: '1.5s' }}></div>
+                        <div className="absolute bottom-3 left-6 w-1 h-1 bg-white opacity-50 rounded-full animate-bounce" style={{ animationDelay: '2s' }}></div>
+                        <div className="absolute bottom-10 left-3 w-1.5 h-1.5 bg-white opacity-45 rounded-full animate-bounce" style={{ animationDelay: '0.7s' }}></div>
+                        <div className="absolute bottom-5 right-5 w-1 h-1 bg-white opacity-55 rounded-full animate-bounce" style={{ animationDelay: '1.2s' }}></div>
+                        
+                        {/* Floating Bubbles */}
+                        <div className="absolute top-2 left-3 w-1 h-1 bg-white opacity-60 rounded-full animate-ping" style={{ animationDuration: '2s' }}></div>
+                        <div className="absolute top-4 right-4 w-1.5 h-1.5 bg-white opacity-40 rounded-full animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }}></div>
+                        <div className="absolute top-6 left-5 w-1 h-1 bg-white opacity-50 rounded-full animate-ping" style={{ animationDuration: '3s', animationDelay: '1s' }}></div>
+                        
+                        {/* Water Shimmer Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white to-transparent opacity-20 animate-pulse"></div>
                       </div>
-                      {/* Water Bubbles */}
-                      <div className="absolute bottom-4 left-4 w-2 h-2 bg-white opacity-60 rounded-full animate-bounce"></div>
-                      <div className="absolute bottom-8 right-6 w-1 h-1 bg-white opacity-40 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
-                      <div className="absolute bottom-12 left-8 w-1.5 h-1.5 bg-white opacity-50 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
+                      
+                      {/* Level Markers */}
+                      <div className="absolute inset-0 flex flex-col justify-between py-2">
+                        <div className="flex items-center justify-between px-1">
+                          <span className="text-xs text-slate-600">100%</span>
+                          <div className="w-full h-px bg-slate-300"></div>
+                        </div>
+                        <div className="flex items-center justify-between px-1">
+                          <span className="text-xs text-slate-600">75%</span>
+                          <div className="w-full h-px bg-slate-300"></div>
+                        </div>
+                        <div className="flex items-center justify-between px-1">
+                          <span className="text-xs text-slate-600">50%</span>
+                          <div className="w-full h-px bg-slate-300"></div>
+                        </div>
+                        <div className="flex items-center justify-between px-1">
+                          <span className="text-xs text-slate-600">25%</span>
+                          <div className="w-full h-px bg-slate-300"></div>
+                        </div>
+                        <div className="flex items-center justify-between px-1">
+                          <span className="text-xs text-slate-600">0%</span>
+                          <div className="w-full h-px bg-slate-300"></div>
+                        </div>
+                      </div>
                     </div>
                     
-                    {/* Level Markers */}
-                    <div className="absolute inset-0 flex flex-col justify-between py-2">
-                      <div className="flex items-center justify-between px-2">
-                        <span className="text-xs text-slate-600">100%</span>
-                        <div className="w-full h-px bg-slate-300"></div>
-                      </div>
-                      <div className="flex items-center justify-between px-2">
-                        <span className="text-xs text-slate-600">75%</span>
-                        <div className="w-full h-px bg-slate-300"></div>
-                      </div>
-                      <div className="flex items-center justify-between px-2">
-                        <span className="text-xs text-slate-600">50%</span>
-                        <div className="w-full h-px bg-slate-300"></div>
-                      </div>
-                      <div className="flex items-center justify-between px-2">
-                        <span className="text-xs text-slate-600">25%</span>
-                        <div className="w-full h-px bg-slate-300"></div>
-                      </div>
-                      <div className="flex items-center justify-between px-2">
-                        <span className="text-xs text-slate-600">0%</span>
-                        <div className="w-full h-px bg-slate-300"></div>
-                      </div>
+                    {/* Large Percentage Display */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-md shadow-lg">
+                      <span className={`text-2xl font-bold ${getWaterLevelColor(getWaterData()?.waterLevel || 0)}`}>
+                        {getWaterData()?.waterLevel}%
+                      </span>
                     </div>
-                  </div>
-                  
-                  {/* Percentage Display */}
-                  <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md">
-                    <span className={`text-lg font-bold ${getWaterLevelColor(getWaterData()?.waterLevel || 0)}`}>
-                      {getWaterData()?.waterLevel}%
-                    </span>
                   </div>
                 </div>
                 
