@@ -79,201 +79,6 @@ export default function Dashboard() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
 
   // Function to dismiss alert
-<<<<<<< HEAD
-  const dismissAlert = async (alertId: string) => {
-    try {
-      // Update local state immediately for better UX
-      setAlerts(prev => prev.map(alert => 
-        alert.id === alertId ? { ...alert, isRead: true } : alert
-      ))
-      
-      // Update on server
-      const response = await fetch('/api/alerts', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ alertId, isRead: true })
-      })
-      
-      if (!response.ok) {
-        console.error('Failed to dismiss alert on server')
-      }
-    } catch (error) {
-      console.error('Error dismissing alert:', error)
-    }
-  }
-
-  // Function to dismiss all alerts
-  const dismissAllAlerts = async () => {
-    try {
-      const unreadAlerts = alerts.filter(a => !a.isRead)
-      
-      // Update local state immediately
-      setAlerts(prev => prev.map(alert => ({ ...alert, isRead: true })))
-      
-      // Update each alert on server
-      for (const alert of unreadAlerts) {
-        try {
-          const response = await fetch('/api/alerts', {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ alertId: alert.id, isRead: true })
-          })
-          
-          if (!response.ok) {
-            console.error(`Failed to dismiss alert ${alert.id} on server`)
-          }
-        } catch (error) {
-          console.error(`Error dismissing alert ${alert.id}:`, error)
-        }
-      }
-    } catch (error) {
-      console.error('Error dismissing all alerts:', error)
-    }
-  }
-
-  // Fetch data from APIs
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch sensor data
-        const sensorResponse = await fetch('/api/sensors')
-        if (sensorResponse.ok) {
-          const sensors = await sensorResponse.json()
-          setSensorData(sensors)
-        } else {
-          // Fallback to mock data if API fails
-          const mockData: SensorData[] = [
-            {
-              id: '1',
-              sensorType: 'electricity',
-              deviceName: 'PZEM-004T',
-              voltage: 220.5,
-              current: 15.2,
-              power: 3350,
-              energy: 1245.6,
-              frequency: 50.0,
-              powerFactor: 0.95,
-              tariff: 1444.70,
-              cost: 1800000,
-              timestamp: new Date().toISOString()
-            },
-            {
-              id: '2',
-              sensorType: 'water_level',
-              deviceName: 'WaterTank01',
-              waterLevel: 75,
-              timestamp: new Date().toISOString()
-            },
-            {
-              id: '3',
-              sensorType: 'ir_detector',
-              deviceName: 'IR01',
-              detected: false,
-              roomName: 'Ruang Aula',
-              timestamp: new Date().toISOString()
-            },
-            {
-              id: '4',
-              sensorType: 'ir_detector',
-              deviceName: 'IR02',
-              detected: true,
-              roomName: 'Ruang Arsip',
-              timestamp: new Date().toISOString()
-            },
-            {
-              id: '5',
-              sensorType: 'ir_detector',
-              deviceName: 'IR03',
-              detected: false,
-              roomName: 'Ruang Layanan',
-              timestamp: new Date().toISOString()
-            },
-            {
-              id: '6',
-              sensorType: 'temperature_humidity',
-              deviceName: 'DHT22',
-              temperature: 28.5,
-              humidity: 65,
-              timestamp: new Date().toISOString()
-            },
-            {
-              id: '7',
-              sensorType: 'smoke',
-              deviceName: 'Smoke01',
-              smokeLevel: 12,
-              timestamp: new Date().toISOString()
-            },
-            {
-              id: '8',
-              sensorType: 'rain',
-              deviceName: 'RainSensor01',
-              rainfall: 2.5,
-              rainIntensity: 'Hujan Ringan',
-              isRaining: true,
-              timestamp: new Date().toISOString()
-            }
-          ]
-          setSensorData(mockData)
-        }
-
-        // Fetch alerts
-        const alertsResponse = await fetch('/api/alerts')
-        if (alertsResponse.ok) {
-          const alertsData = await alertsResponse.json()
-          setAlerts(alertsData)
-        } else {
-          // Fallback to mock alerts if API fails
-          const mockAlerts: Alert[] = [
-            {
-              id: '1',
-              title: 'Ketinggian Air Rendah',
-              message: 'Tandon air mencapai 30%, segera isi ulang',
-              alertType: 'warning',
-              sensorType: 'water_level',
-              isRead: false,
-              createdAt: new Date().toISOString()
-            },
-            {
-              id: '2',
-              title: 'Aktivitas Terdeteksi di Ruang Arsip',
-              message: 'Sensor IR mendeteksi gerakan di ruang arsip',
-              alertType: 'info',
-              sensorType: 'ir_detector',
-              isRead: false,
-              createdAt: new Date().toISOString()
-            },
-            {
-              id: '3',
-              title: 'Pengunjung di Ruang Layanan',
-              message: 'Sensor IR mendeteksi kehadiran pengunjung',
-              alertType: 'info',
-              sensorType: 'ir_detector',
-              isRead: false,
-              createdAt: new Date().toISOString()
-            }
-          ]
-          setAlerts(mockAlerts)
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error)
-        // Set fallback data on error
-        setIsLoading(false)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
-
-    // Set up real-time updates
-    const interval = setInterval(() => {
-      setLastUpdate(new Date())
-      fetchData() // Refetch data every 5 seconds
-=======
   const dismissAlert = (alertId: string) => {
     setAlerts(prev => prev.map(alert => 
       alert.id === alertId ? { ...alert, isRead: true } : alert
@@ -334,7 +139,7 @@ export default function Dashboard() {
         timestamp: new Date().toISOString()
       },
       {
-        id: '6',
+        id: '7',
         sensorType: 'temperature_humidity',
         deviceName: 'DHT22',
         temperature: 28.5,
@@ -342,14 +147,14 @@ export default function Dashboard() {
         timestamp: new Date().toISOString()
       },
       {
-        id: '7',
+        id: '8',
         sensorType: 'smoke',
         deviceName: 'Smoke01',
         smokeLevel: 12,
         timestamp: new Date().toISOString()
       },
       {
-        id: '8',
+        id: '9',
         sensorType: 'rain',
         deviceName: 'RainSensor01',
         rainfall: 2.5,
@@ -423,7 +228,6 @@ export default function Dashboard() {
         }
         return data
       }))
->>>>>>> 18d71b6fff2c80103a08fce6b57db679dd6e2290
     }, 5000)
 
     return () => clearInterval(interval)
@@ -1100,6 +904,102 @@ export default function Dashboard() {
           </Card>
 
         </div>
+            <CardTitle className="flex items-center gap-2">
+              <Thermometer className="h-5 w-5 text-orange-500" />
+              Suhu & Kelembaban
+            </CardTitle>
+            <CardDescription>Sensor DHT22</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {getTempHumidityData() && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center">
+                    <Thermometer className="h-6 w-6 mx-auto mb-2 text-orange-500" />
+                    <p className="text-sm text-slate-600">Suhu</p>
+                    <p className="text-2xl font-bold">{getTempHumidityData()?.temperature?.toFixed(1)}°C</p>
+                  </div>
+                  <div className="text-center">
+                    <Cloud className="h-6 w-6 mx-auto mb-2 text-blue-500" />
+                    <p className="text-sm text-slate-600">Kelembaban</p>
+                    <p className="text-2xl font-bold">{getTempHumidityData()?.humidity?.toFixed(0)}%</p>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-orange-50 to-blue-50 p-3 rounded-lg">
+                  <p className="text-sm text-slate-600 text-center">
+                    Kondisi: {getTempHumidityData()?.temperature && getTempHumidityData().temperature! > 30 ? 'Panas' : 
+                             getTempHumidityData()?.temperature && getTempHumidityData().temperature! < 20 ? 'Dingin' : 'Nyaman'}
+                  </p>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Smoke Detection Card */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2">
+              <Activity className="h-5 w-5 text-red-500" />
+              Deteksi Asap
+            </CardTitle>
+            <CardDescription>Smoke Sensor</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {getSmokeData() && (
+              <div className="space-y-4">
+                <div className="text-center">
+                  <div className="relative h-24 bg-gradient-to-br from-red-50 to-orange-50 rounded-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <Activity className="h-8 w-8 mx-auto mb-2 text-red-500" />
+                      <p className="text-2xl font-bold">{getSmokeData()?.smokeLevel}</p>
+                      <p className="text-xs text-slate-600">ppm</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <Badge variant={getSmokeData()?.smokeLevel && getSmokeData().smokeLevel! > 50 ? 'destructive' : 'secondary'}>
+                    {getSmokeData()?.smokeLevel && getSmokeData().smokeLevel! > 50 ? 'Bahaya' : 'Normal'}
+                  </Badge>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Rain Detection Card */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2">
+              <CloudRain className="h-5 w-5 text-blue-500" />
+              Sensor Hujan
+            </CardTitle>
+            <CardDescription>Rain Sensor</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {getRainData() && (
+              <div className="space-y-4">
+                <div className="text-center">
+                  <div className="relative h-24 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <CloudRain className="h-8 w-8 mx-auto mb-2 text-blue-500" />
+                      <p className="text-2xl font-bold">{getRainData()?.rainfall}</p>
+                      <p className="text-xs text-slate-600">mm</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center space-y-2">
+                  <Badge variant={getRainData()?.isRaining ? 'default' : 'secondary'}>
+                    {getRainData()?.isRaining ? 'Sedang Hujan' : 'Tidak Hujan'}
+                  </Badge>
+                  <p className={`text-sm ${getRainColor(getRainData()?.rainIntensity || '')}`}>
+                    {getRainData()?.rainIntensity}
+                  </p>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
