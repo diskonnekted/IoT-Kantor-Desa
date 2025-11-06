@@ -13,20 +13,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model SensorData {
+  id          String   @id @default(cuid())
+  sensorType  String   // 'electricity', 'water_level', 'ir_detector', 'temperature_humidity', 'smoke'
+  deviceName  String   // e.g., 'PZEM-004T', 'WaterTank01', 'IR01', 'DHT22', 'Smoke01'
+  voltage     Float?   // Voltage (V) - for electricity sensor
+  current     Float?   // Current (A) - for electricity sensor
+  power       Float?   // Power (W) - for electricity sensor
+  energy      Float?   // Energy (kWh) - for electricity sensor
+  frequency   Float?   // Frequency (Hz) - for electricity sensor
+  powerFactor Float?   // Power Factor - for electricity sensor
+  waterLevel  Float?   // Water level percentage (0-100)
+  detected    Boolean? // IR detection status
+  temperature Float?   // Temperature (°C)
+  humidity    Float?   // Humidity (%)
+  smokeLevel  Float?   // Smoke level (ppm or arbitrary units)
+  rainfall    Float?   // Rainfall in mm
+  rainIntensity String? // Rain intensity: 'Hujan Ringan', 'Hujan Sedang', 'Hujan Lebat'
+  isRaining   Boolean? // Rain status
+  tariff      Float?   // Electricity tariff per kWh
+  cost        Float?   // Calculated cost
+  timestamp   DateTime @default(now())
+  createdAt   DateTime @default(now())
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model DeviceConfig {
+  id          String   @id @default(cuid())
+  deviceName  String   @unique
+  deviceType  String   // 'PZEM-004T', 'WaterLevel', 'IR', 'DHT22', 'Smoke', 'RainSensor'
+  location    String   // e.g., 'Kantor Utama', 'Tandon Air', 'Ruang Tamu'
+  isActive    Boolean  @default(true)
+  lastSeen    DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Alert {
+  id          String   @id @default(cuid())
+  title       String
+  message     String
+  alertType   String   // 'warning', 'danger', 'info'
+  sensorType  String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
 }
